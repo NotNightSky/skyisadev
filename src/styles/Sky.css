@@ -1,0 +1,154 @@
+#home {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8rem 2rem 4rem;
+}
+
+.sky-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  max-width: 680px;
+}
+
+.sky-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  border: 1px solid rgba(74, 222, 128, 0.3);
+  padding: 0.3rem 0.8rem;
+  border-radius: 2px;
+  margin-bottom: 1.5rem;
+}
+
+.sky-badge::before {
+  content: '▶';
+  font-size: 0.6rem;
+}
+
+.sky-name {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.2rem;
+}
+
+.hl { color: var(--accent); }
+
+.cursor {
+  display: inline-block;
+  width: 3px;
+  height: 0.9em;
+  background: var(--accent);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+.sky-tagline {
+  font-size: 1.1rem;
+  color: var(--muted);
+  max-width: 48ch;
+  line-height: 1.7;
+  margin-bottom: 2rem;
+}
+
+.sky-tagline strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.sky-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  justify-content: center;
+  margin-bottom: 2.5rem;
+}
+
+.tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.7rem;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+
+.tag:hover { border-color: var(--accent); color: var(--accent); }
+.tag.java  { border-color: rgba(251,191,36,0.4);  color: #fbbf24; }
+.tag.mc    { border-color: rgba(74,222,128,0.4);   color: var(--accent); }
+.tag.web   { border-color: rgba(34,211,238,0.4);   color: #22d3ee; }
+
+.sky-cta {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.btn {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.7rem 1.6rem;
+  border-radius: 2px;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
+  letter-spacing: 0.05em;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #0a0f0c;
+  border: 1px solid var(--accent);
+}
+
+.btn-primary:hover {
+  background: transparent;
+  color: var(--accent);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover {
+  border-color: #22d3ee;
+  color: #22d3ee;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
+}
+
+@media (max-width: 640px) {
+  #home {
+    padding: 6rem 1.5rem 3rem;
+    min-height: auto;
+  }
+
+  .sky-name {
+    font-size: clamp(2rem, 10vw, 2.8rem);
+  }
+
+  .sky-tagline {
+    font-size: 1rem;
+  }
+}
