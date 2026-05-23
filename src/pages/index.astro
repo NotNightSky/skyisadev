@@ -3,6 +3,7 @@ import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro'
 import Sky from '../components/Sky.astro'
 import Contact from '../components/Contact.astro'
+import Skills from '../components/Skills.astro'
 import '../styles/Global.css';
 
 
@@ -19,6 +20,7 @@ const { title, description = "Website of a self-taught minecraft modder", image 
 	<head>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
 		<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -32,6 +34,7 @@ const { title, description = "Website of a self-taught minecraft modder", image 
 	<body>
 		<Header />
   		<Sky />
+		<Skills />
 		<Contact />
 		<Footer />
 	</body>
