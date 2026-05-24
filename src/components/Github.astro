@@ -1,39 +1,97 @@
 ---
 import '../styles/Github.css'
 
-const res = await fetch('https://api.github.com/users/notnightsky');
-const user = await res.json();
+const query = `{
+  user(login: "notnightsky") {
+    avatarUrl
+    name
+    login
+    bio
+    repositories(privacy: PUBLIC) {
+      totalCount
+    }
+    followers {
+      totalCount
+    }
+    contributionsCollection {
+      contributionCalendar {
+        weeks {
+          contributionDays {
+            contributionCount
+            date
+          }
+        }
+      }
+    }
+  }
+}`;
+
+const res = await fetch('https://api.github.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${import.meta.env.PUBLIC_GH_TOKEN}`,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ query }),
+});
+
+const json = await res.json();
+const user = json.data.user;
+const weeks = user.contributionsCollection.contributionCalendar.weeks;
+
+function getLevel(count: number): string {
+  if (count === 0) return 'empty';
+  if (count <= 3) return 'low';
+  if (count <= 6) return 'mid';
+  return 'high';
+}
+
+const days = weeks.flatMap((week: any) =>
+  week.contributionDays.map((day: any) => ({
+    count: day.contributionCount,
+    date: day.date,
+    level: getLevel(day.contributionCount),
+  }))
+);
 ---
 
 <section id="github">
-  <p class="github-label reveal">// LIVE FROM GITHUB</p>
+  <p class="github-label reveal">// live from github</p>
   <h2 class="github-title reveal">GitHub</h2>
   <div class="github-card reveal">
-    <div class="github-header">
-      <img src={user.avatar_url} alt={user.login} class="github-avatar" />
-      <div>
-        <div class="github-name">{user.name ?? user.login}</div>
-        <div class="github-handle">@{user.login}</div>
+    <div class="github-left">
+      <div class="github-header">
+        <img src={user.avatarUrl} alt={user.login} class="github-avatar" />
+        <div>
+          <div class="github-name">{user.name ?? user.login}</div>
+          <div class="github-handle">@{user.login}</div>
+        </div>
+      </div>
+      {user.bio && <p class="github-bio">{user.bio}</p>}
+      <div class="github-stats">
+        <div class="github-stat">
+          <span class="github-stat-n">{user.repositories.totalCount}</span>
+          <span class="github-stat-l">Repos</span>
+        </div>
+        <div class="github-stat">
+          <span class="github-stat-n">{user.followers.totalCount}</span>
+          <span class="github-stat-l">Followers</span>
+        </div>
+      </div>
+      <a class="github-link" href="https://github.com/notnightsky" target="_blank" rel="noopener noreferrer">
+        View Profile ↗
+      </a>
+    </div>
+    <div class="github-right">
+      <div class="contrib-label">Contribution activity</div>
+      <div class="contrib-grid">
+        {days.map((day: any) => (
+          <div
+            class={`contrib-cell ${day.level}`}
+            title={`${day.date}: ${day.count} contributions`}
+          ></div>
+        ))}
       </div>
     </div>
-    {user.bio && <p class="github-bio">{user.bio}</p>}
-    <div class="github-stats">
-      <div class="github-stat">
-        <span class="github-stat-n">{user.public_repos}</span>
-        <span class="github-stat-l">Repos</span>
-      </div>
-      <div class="github-stat">
-        <span class="github-stat-n">{user.followers}</span>
-        <span class="github-stat-l">Followers</span>
-      </div>
-    </div>
-    <img
-      src="https://github-readme-streak-stats.herokuapp.com?user=notnightsky&theme=dark&background=101512&border=1e2b26&ring=4ade80&fire=4ade80&currStreakLabel=4ade80&sideLabels=5a7a6e&dates=5a7a6e&currStreakNum=e2ede8&sideNums=e2ede8"
-      alt="GitHub Streak"
-      class="github-stats-img"
-    />
-    <a class="github-link" href="https://github.com/notnightsky" target="_blank" rel="noopener noreferrer">
-      View Profile ↗
-    </a>
   </div>
 </section>

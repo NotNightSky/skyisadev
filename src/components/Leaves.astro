@@ -1,0 +1,80 @@
+---
+import '../styles/Leaves.css'
+---
+<canvas id="leaves-canvas"></canvas>
+
+<script>
+  const canvas = document.getElementById('leaves-canvas') as HTMLCanvasElement;
+  const ctx = canvas.getContext('2d')!;
+
+  let W: number, H: number;
+
+  const GREENS = [
+    '#4ade80','#22c55e','#16a34a',
+    '#15803d','#86efac','#166534',
+  ];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+
+  function randBetween(a: number, b: number) { return a + Math.random() * (b - a); }
+
+class Particle {
+  x!: number; y!: number;
+  size!: number; color!: string; alpha!: number;
+  vx!: number; vy!: number;
+  wobble!: number; wobbleSpd!: number; wobbleAmp!: number;
+
+    constructor(fromTop: boolean) { this.init(fromTop); }
+
+    init(fromTop: boolean) {
+      this.size       = Math.floor(randBetween(2, 5));
+      this.x          = randBetween(0, W);
+      this.y          = fromTop ? randBetween(-40, -this.size) : randBetween(-40, H);
+      this.vy         = randBetween(0.3, 0.9);
+      this.vx         = randBetween(-0.3, 0.3);
+      this.wobble     = randBetween(0, Math.PI * 2);
+      this.wobbleSpd  = randBetween(0.006, 0.022);
+      this.wobbleAmp  = randBetween(0.2, 0.8);
+      this.color      = GREENS[Math.floor(Math.random() * GREENS.length)];
+      this.alpha      = randBetween(0.3, 0.75);
+    }
+
+    update() {
+      this.wobble += this.wobbleSpd;
+      this.x += this.vx + Math.sin(this.wobble) * this.wobbleAmp;
+      this.y += this.vy;
+      if (this.y > H + 20) this.init(true);
+    }
+
+    draw() {
+      ctx.globalAlpha = this.alpha;
+      ctx.fillStyle   = this.color;
+      ctx.fillRect(this.x, this.y, this.size, this.size);
+    }
+  }
+
+  let particles: Particle[] = [];
+
+  function init() {
+    resize();
+    particles = Array.from({ length: 80 }, () => new Particle(false));
+  }
+
+  function loop() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(loop);
+  }
+
+  window.addEventListener('resize', () => {
+    resize();
+    particles = Array.from({ length: 80 }, () => new Particle(false));
+  });
+
+  init();
+  loop();
+</script>
