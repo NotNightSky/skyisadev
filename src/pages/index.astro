@@ -12,12 +12,12 @@ import '../styles/Global.css';
 
 
 interface Props {
-	title: string;
+	title?: string;
 	description?: string;
 	image?: string;
 }
 
-const { title, description = "Website of a self-taught minecraft modder", image = "/images/pfp.png"} = Astro.props;
+const { title = "Sky is a Dev", description = "Website of a self-taught minecraft modder", image = "/images/pfp.png"} = Astro.props;
 ---
 
 <html lang="en">

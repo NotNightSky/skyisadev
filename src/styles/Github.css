@@ -143,9 +143,19 @@
 .contrib-cell.mid   { background: #22c55e; }
 .contrib-cell.high  { background: #4ade80; }
 
+@media (max-width: 860px) {
+  .github-right{
+    display: none;
+  }
+}
+
 @media (max-width: 640px) {
   #github {
     padding: 4rem 1.5rem;
+  }
+
+  .github-right {
+    display: none;
   }
 
   .github-card {

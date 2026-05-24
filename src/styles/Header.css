@@ -40,3 +40,9 @@
   nav a:hover {
     color: var(--accent);
   }
+
+  @media (max-width: 610px) {
+    header {
+      display: none;
+    }
+  }
