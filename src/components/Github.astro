@@ -1,0 +1,39 @@
+---
+import '../styles/Github.css'
+
+const res = await fetch('https://api.github.com/users/notnightsky');
+const user = await res.json();
+---
+
+<section id="github">
+  <p class="github-label reveal">// LIVE FROM GITHUB</p>
+  <h2 class="github-title reveal">GitHub</h2>
+  <div class="github-card reveal">
+    <div class="github-header">
+      <img src={user.avatar_url} alt={user.login} class="github-avatar" />
+      <div>
+        <div class="github-name">{user.name ?? user.login}</div>
+        <div class="github-handle">@{user.login}</div>
+      </div>
+    </div>
+    {user.bio && <p class="github-bio">{user.bio}</p>}
+    <div class="github-stats">
+      <div class="github-stat">
+        <span class="github-stat-n">{user.public_repos}</span>
+        <span class="github-stat-l">Repos</span>
+      </div>
+      <div class="github-stat">
+        <span class="github-stat-n">{user.followers}</span>
+        <span class="github-stat-l">Followers</span>
+      </div>
+    </div>
+    <img
+      src="https://github-readme-streak-stats.herokuapp.com?user=notnightsky&theme=dark&background=101512&border=1e2b26&ring=4ade80&fire=4ade80&currStreakLabel=4ade80&sideLabels=5a7a6e&dates=5a7a6e&currStreakNum=e2ede8&sideNums=e2ede8"
+      alt="GitHub Streak"
+      class="github-stats-img"
+    />
+    <a class="github-link" href="https://github.com/notnightsky" target="_blank" rel="noopener noreferrer">
+      View Profile ↗
+    </a>
+  </div>
+</section>

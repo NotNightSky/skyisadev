@@ -4,6 +4,8 @@ import Header from '../components/Header.astro'
 import Sky from '../components/Sky.astro'
 import Contact from '../components/Contact.astro'
 import Skills from '../components/Skills.astro'
+import Github from '../components/Github.astro'
+import Projects from '../components/Projects.astro'
 import '../styles/Global.css';
 
 
@@ -34,8 +36,24 @@ const { title, description = "Website of a self-taught minecraft modder", image 
 	<body>
 		<Header />
   		<Sky />
+		<Github />
+		<Projects />
 		<Skills />
 		<Contact />
 		<Footer />
+
+	<script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    </script>
+
 	</body>
 </html>

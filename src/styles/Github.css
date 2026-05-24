@@ -1,0 +1,115 @@
+#github {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 6rem 2rem;
+}
+
+.github-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.github-title {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 2rem;
+}
+
+.github-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 2rem;
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.github-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  text-align: left;
+}
+
+.github-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  flex-shrink: 0;
+}
+
+.github-name {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+.github-handle {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 0.2rem;
+}
+
+.github-bio {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  text-align: left;
+}
+
+.github-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.github-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.github-stat-n {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+.github-stat-l {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.github-stats-img {
+  width: 100%;
+  border-radius: 4px;
+}
+
+.github-link {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  color: var(--muted);
+  text-decoration: none;
+  text-align: left;
+  transition: color 0.2s;
+}
+
+.github-link:hover {
+  color: var(--accent);
+}
+
+@media (max-width: 640px) {
+  #github {
+    padding: 4rem 1.5rem;
+  }
+}

@@ -1,0 +1,118 @@
+---
+import '../styles/Projects.css'
+
+const query = `{
+  user(login: "notnightsky") {
+    pinnedItems(first: 6, types: REPOSITORY) {
+      nodes {
+        ... on Repository {
+          name
+          description
+          url
+          stargazerCount
+          owner {
+            login
+          }
+          languages(first: 4) {
+            nodes {
+              name
+            }
+          }
+          repositoryTopics(first: 5) {
+            nodes {
+              topic {
+                name
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+const res = await fetch('https://api.github.com/graphql', {
+  method: 'POST',
+  headers: {
+    'Authorization': `Bearer ${import.meta.env.PUBLIC_GH_TOKEN}`,
+    'Content-Type': 'application/json',
+  },
+  body: JSON.stringify({ query }),
+});
+
+const { data } = await res.json();
+const projects = data.user.pinnedItems.nodes;
+
+function getType(repo: any): string {
+  const topics = repo.repositoryTopics.nodes.map((n: any) => n.topic.name);
+  const isOwn = repo.owner.login === 'NotNightSky';
+
+  if (topics.includes('minecraft-mod')) {
+    return isOwn ? 'Minecraft Mod' : 'Contributed Mod';
+  }
+  if (topics.includes('minecraft-plugin')) {
+    return isOwn ? 'Plugin' : 'Contributed Plugin';
+  }
+  if (topics.includes('library')) {
+    return isOwn ? 'Library' : 'Contributed Library';
+  }
+  return isOwn ? 'Website' : 'Contributed Website';
+}
+
+function getIcon(type: string): string {
+    if (type === 'Minecraft Mod' || type === 'Plugin'){
+        return '⛏️'
+    }
+    else if (type === 'Library'){
+        return '📚'
+    }
+  return '🌐';
+}
+
+function getCardClass(type: string): string {
+  return type === 'Website' ? 'project-card reveal web-card' : 'project-card reveal';
+}
+
+function getLangClass(type: string): string {
+  return type === 'Website' ? 'project-lang web-lang' : 'project-lang';
+}
+
+const cards = projects.map((repo: any) => {
+  const type = getType(repo);
+  return {
+    type,
+    icon: getIcon(type),
+    cardClass: getCardClass(type),
+    langClass: getLangClass(type),
+    name: repo.name,
+    desc: repo.description ?? 'No description provided.',
+    url: repo.url,
+    lang: repo.languages.nodes.map((l: any) => l.name).join(' · ') || 'Unknown',
+    stars: repo.stargazerCount,
+  };
+});
+---
+
+<section id="projects">
+  <p class="projects-label reveal">// WHAT I'VE BUILT</p>
+  <h2 class="projects-title reveal">Projects</h2>
+  <div class="projects-grid">
+    {cards.map((card : any) => (
+      <a
+        class={card.cardClass}
+        href={card.url}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <div class="project-icon">{card.icon}</div>
+        <div class="project-type">{card.type}</div>
+        <div class="project-name">{card.name}</div>
+        <div class="project-desc">{card.desc}</div>
+        <div class="project-footer">
+          <div class={card.langClass}>{card.lang}</div>
+          <span class="project-stars">★ {card.stars}</span>
+        </div>
+      </a>
+    ))}
+  </div>
+</section>
