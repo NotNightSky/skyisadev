@@ -76,6 +76,45 @@
 
 .project-icon {
   font-size: 1.4rem;
+  line-height: 1;
+  color: var(--muted);
+  transition: color 0.2s ease;
+}
+
+.project-card:hover .project-icon {
+  color: var(--text);
+}
+
+.project-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+  transition: all 0.2s ease;
+}
+
+.project-icon svg {
+  color: currentColor;
+  fill: currentColor;
+}
+
+.project-icon svg[viewBox="0 0 100 100"] {
+  color: currentColor;
+}
+
+.project-icon svg[viewBox="0 0 100 100"] path {
+  stroke: currentColor;
+}
+
+.project-icon svg[viewBox="0 0 100 100"] path[fill="none"] {
+  fill: none;
+}
+
+.project-icon svg[viewBox="0 0 100 100"] path[fill="currentColor"] {
+  fill: currentColor;
+}
+
+.project-card:hover .project-icon svg {
+  transform: scale(1.05);
 }
 
 .project-type {

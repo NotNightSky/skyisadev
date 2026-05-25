@@ -1,6 +1,12 @@
 ---
 import '../styles/Projects.css'
 
+const LibraryIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" fill="currentColor"><path d="M384 512L96 512c-53 0-96-43-96-96L0 96C0 43 43 0 96 0L400 0c26.5 0 48 21.5 48 48l0 288c0 20.9-13.4 38.7-32 45.3l0 66.7c17.7 0 32 14.3 32 32s-14.3 32-32 32l-32 0zM96 384c-17.7 0-32 14.3-32 32s14.3 32 32 32l256 0 0-64-256 0zm32-232c0 13.3 10.7 24 24 24l176 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-176 0c-13.3 0-24 10.7-24 24zm24 72c-13.3 0-24 10.7-24 24s10.7 24 24 24l176 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-176 0z"/></svg>`;
+
+const WebsiteIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor"><path d="M0 256c0-46.6 12.5-90.4 34.3-128.9L144.1 318.3c21.9 39.2 63.8 65.7 111.9 65.7 14.3 0 27.1-2.3 40.8-6.6L220.5 509.6C95.9 492.3 0 385.3 0 256zm365.1 65.6c12.3-19.2 18.9-42.5 18.9-65.6 0-38.2-16.8-72.5-43.3-96l152.7 0c12 29.6 18.6 62.1 18.6 96 0 141.4-114.6 255.1-256 256L365.1 321.6zM477.8 128L256 128c-62.9 0-113.7 44.1-125.5 102.7L54.2 98.5C101 38.5 174 0 256 0 350.8 0 433.5 51.5 477.8 128zM344 256a88 88 0 1 1 -176 0 88 88 0 1 1 176 0z"/></svg>`;
+
+const ModPluginIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="currentColor"><g stroke-linejoin="round" stroke-miterlimit="0"><path d="M0 0h100v100H0z" fill="none" stroke="currentColor" stroke-width="8.886"/><path d="M20 21.5V40h20V21.5zm40 0V40h20V21.5zm-20 20v10H30V80h10V70h20v10h10V51.5H60v-10z" fill="none" stroke="currentColor" stroke-width="7.663"/></g></svg>`;
+
 const query = `{
   user(login: "notnightsky") {
     pinnedItems(first: 6, types: REPOSITORY) {
@@ -60,13 +66,13 @@ function getType(repo: any): string {
 }
 
 function getIcon(type: string): string {
-    if (type === 'Minecraft Mod' || type === 'Plugin'){
-        return '⛏️'
+    if (type === 'Minecraft Mod' || type === 'Plugin' || type === 'Contributed Mod' || type === 'Contributed Plugin'){
+        return ModPluginIcon;
     }
-    else if (type === 'Library'){
-        return '📚'
+    else if (type === 'Library' || type === 'Contributed Library'){
+        return LibraryIcon;
     }
-  return '🌐';
+  return WebsiteIcon;
 }
 
 function getCardClass(type: string): string {
@@ -81,7 +87,7 @@ const cards = projects.map((repo: any) => {
   const type = getType(repo);
   return {
     type,
-    icon: getIcon(type),
+    iconSvg: getIcon(type),
     cardClass: getCardClass(type),
     langClass: getLangClass(type),
     name: repo.name,
@@ -104,7 +110,7 @@ const cards = projects.map((repo: any) => {
         target="_blank"
         rel="noopener noreferrer"
       >
-        <div class="project-icon">{card.icon}</div>
+        <div class="project-icon" set:html={card.iconSvg}></div>
         <div class="project-type">{card.type}</div>
         <div class="project-name">{card.name}</div>
         <div class="project-desc">{card.desc}</div>
